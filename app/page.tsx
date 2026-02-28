@@ -1,3 +1,7 @@
+
+
+
+
 "use client";
 
 import { useState } from "react";
@@ -138,7 +142,7 @@ const pointValueRanges: any = {
 export default function Home() {
   const [category, setCategory] = useState("travel");
   const [amount, setAmount] = useState("");
-  const [isPremium, setIsPremium] = useState(false);
+  const [isPremium, setIsPremium] = useState(true);
   const [ownedCards, setOwnedCards] = useState<string[]>([]);
 
   const spend = Number(amount || 0);
@@ -201,17 +205,6 @@ export default function Home() {
               <option key={c} value={c}>{c}</option>
             ))}
           </select>
-        </section>
-
-        {/* DEV premium toggle */}
-        <section className="bg-white p-4 rounded shadow flex justify-between">
-          <span>Premium access</span>
-          <button
-            onClick={() => setIsPremium(!isPremium)}
-            className="underline text-sm"
-          >
-            {isPremium ? "Disable Premium" : "Enable Premium"}
-          </button>
         </section>
 
         <section className="bg-white p-6 rounded-xl shadow space-y-4">
