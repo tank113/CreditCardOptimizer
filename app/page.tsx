@@ -153,7 +153,12 @@ export default function Home() {
     );
   }
 
-  function calculateReward(card: any) {
+  interface Reward {
+  text: string;
+  value: string | number | null;
+}
+
+function calculateReward(card: any): Reward | null {
     const rule = card.categories[category];
     if (!rule || spend <= 0) return null;
 
@@ -169,15 +174,17 @@ export default function Home() {
     };
   }
 
+  // ensure we only compare cards with a non-null reward
   const bestCard =
     isPremium && spend > 0
       ? eligibleCards
           .filter((c) => ownedCards.includes(c.name))
           .map((c) => ({ name: c.name, reward: calculateReward(c) }))
-          .filter((r) => r.reward)
+          // type predicate tells TS reward is not null after this filter
+          .filter((r): r is { name: string; reward: Reward } => r.reward !== null)
           .sort((a, b) =>
-            Number(b.reward.value?.toString().replace(/\D/g, "")) -
-            Number(a.reward.value?.toString().replace(/\D/g, ""))
+            Number(b.reward.value?.toString().replace(/\D/g, "") ?? 0) -
+            Number(a.reward.value?.toString().replace(/\D/g, "") ?? 0)
           )[0]
       : null;
 
